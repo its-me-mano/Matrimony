@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1011188647842",
+    "project_id": "matrimony-3b624",
+    "storage_bucket": "matrimony-3b624.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011188647842:android:9cff99a50fb755aaab94fb",
+        "android_client_info": {
+          "package_name": "com.manoj.matrimony"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXfvdu2F5_OmG1o2Qg6hvTq30BUDA_0l8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
