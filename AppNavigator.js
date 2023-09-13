@@ -5,8 +5,8 @@ import auth from '@react-native-firebase/auth';
 import {AuthContext} from './AuthPage/AuthProvider';
 import LoginScreen from './AuthPage/LoginScreen';
 import {createStackNavigator} from '@react-navigation/stack';
-import RegisterScreen from './AuthPage/RegisterScreen';
-
+import RegisterMainScreen from './AuthPage/Registration/RegisterMainScreen';
+import RegistrationSuccessScreen from './AuthPage/Registration/RegistrationSuccessScreen';
 const Stack = createStackNavigator();
 const AppNavigator = () => {
   const {user, setUser} = useContext(AuthContext);
@@ -28,7 +28,15 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen
+          name="Register"
+          component={RegisterMainScreen}
+          options={{
+            headerLeft: null, 
+            headerShown: false// Hide the back arrow
+          }}
+        />
+        <Stack.Screen name="RegistrationSuccess" component={RegistrationSuccessScreen} />
       </Stack.Navigator>  
     </NavigationContainer>
   );
