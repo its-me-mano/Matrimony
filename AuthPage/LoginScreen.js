@@ -54,6 +54,19 @@ const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  root: {
+    margin: 0,
+    padding: 0,
+    minHeight: '100%',
+    flex: 1, // Use flex for layout instead of flex-basis
+    width: '100%',
+  },
+  label: {
+    cursor: 'pointer',
+  },
+  button: {
+    cursor: 'pointer',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

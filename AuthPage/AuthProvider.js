@@ -2,6 +2,7 @@
 import React, {createContext, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 
 export const AuthContext = createContext();
 
@@ -14,39 +15,46 @@ export const AuthProvider = ({children}) => {
         user,
         setUser,
         login: async (email, password) => {
-          try {
-            console.log("Entered",email,password);
-            if(email!=null && password!=null){
-            await auth().signInWithEmailAndPassword(email, password);
-            console.log('Successfully');
+            try {
+              console.log("Entered",email,password);
+              if(email!=null && password!=null){
+              await auth().signInWithEmailAndPassword(email, password);
+              console.log('Successfully');
+              }
+            } catch (e) {
+              console.log(e);
             }
-          } catch (e) {
-            console.log(e);
-          }
-        },
-        register: async (email, password) => {
-          try {
-            await auth().createUserWithEmailAndPassword(email, password)
-            .then(() => {
-              //Once the user creation has happened successfully, we can add the currentUser into firestore
-              //with the appropriate details.
-              firestore().collection('users').doc(auth().currentUser.uid)
-              .set({
-                  fname: '',
-                  lname: '',
-                  email: email,
-                  createdAt: firestore.Timestamp.fromDate(new Date()),
-                  userImg: null,
-              })
-              //ensure we catch any errors at this stage to advise us if something does go wrong
-              .catch(error => {
-                  console.log('Something went wrong with added user to firestore: ', error);
-              })
-            })
-            //we need to catch the whole sign up process if it fails too.
-            .catch(error => {
-                console.log('Something went wrong with sign up: ', error);
-            });
+            },
+        register: async (email, password,userData,navigation) => {
+                try {
+                  const userCredential = await auth().createUserWithEmailAndPassword(
+              email,
+              password,
+            );
+            console.log('Registration successful', userCredential.user);
+
+            // Get the user's unique ID
+            const userId = userCredential.user.uid;
+
+            // Create a reference to the Firestore collection where you want to store user data
+            const usersCollection = firestore().collection('UserData');
+
+            // Define the data you want to store
+            const userDataToStore = {
+              fullName: userData.fullName,
+              dob: userData.dob, // Convert to a string or any desired format
+              address: userData.address,
+              details: userData.details,
+              gender: userData.gender,
+              motherTongue: userData.motherTongue,
+              subCaste: userData.subCaste,
+              theoneRegistered: userData.theoneRegistered,
+              // Add other user data properties here
+            };
+
+            // Use the user's ID as the document ID in Firestore
+            await usersCollection.doc(userId).set(userDataToStore);
+            navigation.navigate('RegistrationSuccess');
           } catch (e) {
             console.log(e);
           }
