@@ -1,13 +1,13 @@
-// App.js
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import AppNavigator from './AppNavigator';
+import AppNavigator from './AppNavigator'; // Import your navigator
+import {AuthProvider} from './AuthPage/AuthProvider'; // Import your AuthProvider
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+    <AuthProvider>
+        <AppNavigator />
+    </AuthProvider>
   );
 };
 
