@@ -1,53 +1,67 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AuthContext } from '../AuthProvider';
+import { useNavigation } from '@react-navigation/native';
 
-const RegisterScreen2 = () => {
-  const { register } = useContext(AuthContext);
-  const [maritalStatus, setMaritalStatus] = useState(''); // State for marital status
-  const [country, setCountry] = useState(''); // State for country
-  const [state, setState] = useState(''); // State for state
-  const [city, setCity] = useState(''); // State for city
-  const [citizenship, setCitizenship] = useState(''); // State for citizenship
+const SquareRadioButton = ({label, selected, onPress}) => {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View
+          style={[styles.radioButton, selected && styles.radioButtonSelected]}>
+          {selected && <View style={styles.radioButtonInner} />}
+          <Text style={styles.radioButtonLabel}>{label}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
+const RegisterScreen2 = ({ userData, updateUserData }) => {
+  const [selectedOption, setSelectedOption] = useState(null);  
+  const navigation = useNavigation();
   const handleRegister = () => {
-    // Implement your registration logic here, including these new fields
+    navigation.navigate('Step3');
+  };
+  const handleInputChange = (fieldName, value) => {
+    setSelectedOption(value);
+    updateUserData({ [fieldName]: value });
   };
 
   return (
     <View style={styles.container}>
       <Text>Register Step 2</Text>
       {/* Marital Status */}
-      <Text>Marital Status</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setMaritalStatus('Unmarried')}>
-        <Text>Unmarried</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setMaritalStatus('Widower')}>
-        <Text>Widower</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setMaritalStatus('Divorced')}>
-        <Text>Divorced</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setMaritalStatus('Separated')}>
-        <Text>Separated</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonRow}>
+        <SquareRadioButton
+          label="Self"
+          selected={selectedOption === 'Unmarried'}
+          onPress={() => handleInputChange('maritualStatus', 'Unmarried')}
+        />
+        <SquareRadioButton
+          label="Widower"
+          selected={selectedOption === 'Widower'}
+          onPress={() => handleInputChange('maritualStatus', 'Widower')}
+        />
+        <SquareRadioButton
+          label="Divorced"
+          selected={selectedOption === 'Divorced'}
+          onPress={() => handleInputChange('maritualStatus', 'Divorced')}
+        />
+         <SquareRadioButton
+          label="Seperated"
+          selected={selectedOption === 'Seperated'}
+          onPress={() => handleInputChange('maritualStatus', 'Seperated')}
+        />
+      </View>
 
       {/* Country */}
       <Text>Country</Text>
       <TextInput
         style={styles.input}
         placeholder="Country"
-        value={country}
-        onChangeText={setCountry}
+        value={userData.country}
+        onChangeText={text => handleInputChange('country', text)}
       />
 
       {/* State */}
@@ -55,8 +69,8 @@ const RegisterScreen2 = () => {
       <TextInput
         style={styles.input}
         placeholder="State"
-        value={state}
-        onChangeText={setState}
+        value={userData.state}
+        onChangeText={text => handleInputChange('state', text)}
       />
 
       {/* City */}
@@ -64,8 +78,8 @@ const RegisterScreen2 = () => {
       <TextInput
         style={styles.input}
         placeholder="City"
-        value={city}
-        onChangeText={setCity}
+        value={userData.city}
+        onChangeText={text => handleInputChange('city', text)}
       />
 
       {/* Citizenship */}
@@ -73,12 +87,12 @@ const RegisterScreen2 = () => {
       <TextInput
         style={styles.input}
         placeholder="Citizenship"
-        value={citizenship}
-        onChangeText={setCitizenship}
+        value={userData.citizenship}
+        onChangeText={text => handleInputChange('citizenShip', text)}
       />
 
       {/* Register Button */}
-      <Button title="Register" onPress={handleRegister} />
+      <Button title="Next" onPress={handleRegister} />
     </View>
   );
 };
@@ -104,6 +118,23 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 12,
   },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 10,
+  },
+  radioButtonSelected: {
+    backgroundColor: '#BA0F6B', // Change the color for selected state
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 4,
+    padding: 10,
+    marginBottom: 10,
+  }
 });
 
 export default RegisterScreen2;

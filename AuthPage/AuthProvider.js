@@ -25,11 +25,12 @@ export const AuthProvider = ({children}) => {
               console.log(e);
             }
             },
-        register: async (email, password,userData,navigation) => {
+        register: async (userData,navigation) => {
                 try {
+                  if(userData.email!=null && userData.password!=null){
                   const userCredential = await auth().createUserWithEmailAndPassword(
-              email,
-              password,
+              userData.email,
+              userData.password,
             );
             console.log('Registration successful', userCredential.user);
 
@@ -41,20 +42,38 @@ export const AuthProvider = ({children}) => {
 
             // Define the data you want to store
             const userDataToStore = {
-              fullName: userData.fullName,
-              dob: userData.dob, // Convert to a string or any desired format
-              address: userData.address,
-              details: userData.details,
-              gender: userData.gender,
-              motherTongue: userData.motherTongue,
-              subCaste: userData.subCaste,
-              theoneRegistered: userData.theoneRegistered,
-              // Add other user data properties here
-            };
+            fullName: userData.fullName || '', // Use an empty string as a default value
+            dob: userData.dob ? userData.dob.toString() : '', // Convert to a string or use an empty string
+            address: userData.address || '',
+            details: userData.details || '',
+            gender: userData.gender || '',
+            motherTongue: userData.motherTongue || '',
+            subCaste: userData.subCaste || '',
+            theoneRegistered: userData.theoneRegistered || '',
+            height: userData.height || '',
+            education: userData.education || '',
+            employed: userData.employed || '',
+            occupation: userData.occupation || '',
+            physicalStatus: userData.physicalStatus || '',
+            familyStatus: userData.familyStatus || '',
+            familyType: userData.familyType || '',
+            aboutMe: userData.aboutMe || '',
+            dosam: userData.dosam || '',
+            star: userData.star || '',
+            raasi: userData.raasi || '',
+            gothram: userData.gothram || '',
+            timeOfBirth: userData.timeOfBirth || '',
+            countryOfBirth: userData.countryOfBirth || '',
+            stateOfBirth: userData.stateOfBirth || '',
+            cityOfBirth: userData.cityOfBirth || '',
+            horoscopeChartStyle: userData.horoscopeChartStyle || '',
+          };
+
 
             // Use the user's ID as the document ID in Firestore
             await usersCollection.doc(userId).set(userDataToStore);
             navigation.navigate('RegistrationSuccess');
+                  }
           } catch (e) {
             console.log(e);
           }

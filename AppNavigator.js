@@ -6,6 +6,7 @@ import {AuthContext} from './AuthPage/AuthProvider';
 import LoginScreen from './AuthPage/LoginScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import RegisterMainScreen from './AuthPage/Registration/RegisterMainScreen';
+import ImageUploadScreen from './AuthPage/ImageUploadScreen';
 import RegistrationSuccessScreen from './AuthPage/Registration/RegistrationSuccessScreen';
 const Stack = createStackNavigator();
 const AppNavigator = () => {
@@ -26,6 +27,7 @@ const AppNavigator = () => {
    if (initializing) return null;
   return(
     <NavigationContainer>
+     {user==null?(
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
@@ -37,7 +39,20 @@ const AppNavigator = () => {
           }}
         />
         <Stack.Screen name="RegistrationSuccess" component={RegistrationSuccessScreen} />
-      </Stack.Navigator>  
+      </Stack.Navigator>
+     ):(
+        <Stack.Navigator initialRouteName='Image'>
+        <Stack.Screen
+              name="Image"
+              component={ImageUploadScreen}
+              options={{
+                headerLeft: null, 
+                headerShown: false// Hide the back arrow
+              }}
+            />
+        </Stack.Navigator>
+     )
+     }
     </NavigationContainer>
   );
 };

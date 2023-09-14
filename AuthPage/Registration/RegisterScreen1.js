@@ -14,7 +14,6 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import firestore from '@react-native-firebase/firestore';
 
-
 const CustomButton = ({ title, onPress }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -35,22 +34,14 @@ const SquareRadioButton = ({label, selected, onPress}) => {
   );
 };
 
-const RegisterScreen1 = () => {
-  const { register } = useContext(AuthContext);
+const RegisterScreen1 = ({ userData, updateUserData }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const navigation = useNavigation();
-  const [userData, setUserData] = useState({
-    fullName: '',
-    dob: '',
-    address: '',
-    details: '',
-    gender: '',
-    motherTongue: '',
-    subCaste: '',
-    theoneRegistered: '',
-  });
+  const handleRegister = () => {
+    navigation.navigate('Step2',{userData});
+  };
   const [dob, setDob] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -58,7 +49,7 @@ const RegisterScreen1 = () => {
     setShowDatePicker(false);
     if (selectedDate) {
       setDob(selectedDate);
-      setUserData({...userData,['dob']:selectedDate.toString()});
+      handleInputChange("dob",selectedDate.toString());
     }
   };
 
@@ -68,7 +59,8 @@ const RegisterScreen1 = () => {
 
   const handleInputChange = (fieldName, value) => {
     setSelectedOption(value);
-    setUserData({...userData, [fieldName]: value});
+    // Update userData in RegisterMainScreen
+    updateUserData({ [fieldName]: value });
   };
 
 
@@ -108,7 +100,7 @@ const RegisterScreen1 = () => {
   //   }
   // };
   const routeLogin = () => {
-    navigation.navigate('Login');
+    navigation.navigate('Step2');
   };
   return (
     <View style={styles.container}>
@@ -204,18 +196,18 @@ const RegisterScreen1 = () => {
       <TextInput
         style={styles.input}
         placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
+        value={userData.email}
+        onChangeText={text=>handleInputChange('email',text)}
       />
       <Text style={styles.Text}>Password</Text>
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
-        value={password}
-        onChangeText={setPassword}
+        value={userData.password}
+        onChangeText={text=>handleInputChange('password',text)}
       />
-      <Button title="Continue" onPress={()=>register(email,password,userData,navigation)} />
+      <Button title="Continue" onPress={handleRegister} />
     </View>
   );
 };
