@@ -14,11 +14,12 @@ export const AuthProvider = ({children}) => {
       value={{
         user,
         setUser,
-        login: async (email, password) => {
+        login: async (email, password,navigation) => {
             try {
               console.log("Entered",email,password);
               if(email!=null && password!=null){
               await auth().signInWithEmailAndPassword(email, password);
+              navigation.navigate("Image");
               console.log('Successfully');
               }
             } catch (e) {
@@ -42,6 +43,7 @@ export const AuthProvider = ({children}) => {
 
             // Define the data you want to store
             const userDataToStore = {
+            profilePic:userData.profilePic||'',
             fullName: userData.fullName || '', // Use an empty string as a default value
             dob: userData.dob ? userData.dob.toString() : '', // Convert to a string or use an empty string
             address: userData.address || '',
@@ -78,13 +80,35 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
-        logout: async () => {
+        logout: async (navigation) => {
           try {
             await auth().signOut();
+            navigation.navigate("Login")
           } catch (e) {
             console.log(e);
           }
         },
+        updateProfile: async (imageUrl,navigation) => {
+            if (!user) {
+              console.log('User is not authenticated');
+              return;
+            }
+
+            const userId = user.uid;
+            const db = firestore();
+            const userRef = db.collection('UserData').doc(userId);
+
+            try {
+              await userRef.update({
+                profilePic: imageUrl,
+              });
+              console.log('Profile picture updated successfully');
+              navigation.navigate("Home")
+            } catch (error) {
+              console.error('Error updating profile picture:', error);
+            }
+      }
+
       }}>
       {children}
     </AuthContext.Provider>

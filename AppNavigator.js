@@ -8,6 +8,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import RegisterMainScreen from './AuthPage/Registration/RegisterMainScreen';
 import ImageUploadScreen from './AuthPage/ImageUploadScreen';
 import RegistrationSuccessScreen from './AuthPage/Registration/RegistrationSuccessScreen';
+import HomeScreen from './Home/HomeScreen';
+import ForgotPasswordScreen from './AuthPage/ForgotPasswordScreen';
 const Stack = createStackNavigator();
 const AppNavigator = () => {
   const {user, setUser} = useContext(AuthContext);
@@ -31,6 +33,10 @@ const AppNavigator = () => {
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPasswordScreen}
+        />
+        <Stack.Screen
           name="Register"
           component={RegisterMainScreen}
           options={{
@@ -48,6 +54,14 @@ const AppNavigator = () => {
               options={{
                 headerLeft: null, 
                 headerShown: false// Hide the back arrow
+              }}
+            />
+        <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                headerLeft: null, 
+                headerShown: true// Hide the back arrow
               }}
             />
         </Stack.Navigator>

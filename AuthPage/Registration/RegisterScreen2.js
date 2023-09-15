@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet,ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AuthContext } from '../AuthProvider';
 import { useNavigation } from '@react-navigation/native';
@@ -29,80 +29,101 @@ const RegisterScreen2 = ({ userData, updateUserData }) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
-      <Text>Register Step 2</Text>
       {/* Marital Status */}
-      <View style={styles.buttonRow}>
+      <Text style={styles.detailsTitle}>Marital Status</Text>
+      <View style={styles.inputContainer}>
+        <View style={styles.buttonRow}>
+          <SquareRadioButton
+            label="Unmarried"
+            style={styles.brBtn}
+            selected={selectedOption === 'Unmarried'}
+            onPress={() => handleInputChange('maritualStatus', 'Unmarried')}
+          />
+          <SquareRadioButton
+            label="Widower"
+            style={styles.brBtn}
+            selected={selectedOption === 'Widower'}
+            onPress={() => handleInputChange('maritualStatus', 'Widower')}
+          />
+        </View>
+        <View style={styles.buttonRow}>
         <SquareRadioButton
-          label="Self"
-          selected={selectedOption === 'Unmarried'}
-          onPress={() => handleInputChange('maritualStatus', 'Unmarried')}
-        />
-        <SquareRadioButton
-          label="Widower"
-          selected={selectedOption === 'Widower'}
-          onPress={() => handleInputChange('maritualStatus', 'Widower')}
-        />
-        <SquareRadioButton
-          label="Divorced"
-          selected={selectedOption === 'Divorced'}
-          onPress={() => handleInputChange('maritualStatus', 'Divorced')}
-        />
-         <SquareRadioButton
-          label="Seperated"
-          selected={selectedOption === 'Seperated'}
-          onPress={() => handleInputChange('maritualStatus', 'Seperated')}
+            label="Divorced"
+            style={styles.brBtn}
+            selected={selectedOption === 'Divorced'}
+            onPress={() => handleInputChange('maritualStatus', 'Divorced')}
+          />
+          <SquareRadioButton
+              label="Seperated"
+              style={styles.brBtn}
+              selected={selectedOption === 'Seperated'}
+              onPress={() => handleInputChange('maritualStatus', 'Seperated')}
+            />
+        </View>
+      </View>
+      
+
+      {/* Country */}
+      
+      <View style={styles.inputContainer}>
+        <Text style={styles.detailsTitle}>Country</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Country"
+          value={userData.country}
+          onChangeText={text => handleInputChange('country', text)}
         />
       </View>
 
-      {/* Country */}
-      <Text>Country</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Country"
-        value={userData.country}
-        onChangeText={text => handleInputChange('country', text)}
-      />
+      <View style={styles.inputContainer}>
+        <Text style={styles.detailsTitle}>State</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="State"
+          value={userData.state}
+          onChangeText={text => handleInputChange('state', text)}
+        />
+      </View>
 
-      {/* State */}
-      <Text>State</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="State"
-        value={userData.state}
-        onChangeText={text => handleInputChange('state', text)}
-      />
-
-      {/* City */}
-      <Text>City</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="City"
-        value={userData.city}
-        onChangeText={text => handleInputChange('city', text)}
-      />
-
-      {/* Citizenship */}
-      <Text>Citizenship</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Citizenship"
-        value={userData.citizenship}
-        onChangeText={text => handleInputChange('citizenShip', text)}
-      />
+      <View style={styles.inputContainer}>
+        <Text style={styles.detailsTitle}>City</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="City"
+          value={userData.city}
+          onChangeText={text => handleInputChange('city', text)}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.detailsTitle}>Citizenship</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Citizenship"
+          value={userData.citizenship}
+          onChangeText={text => handleInputChange('citizenShip', text)}
+        />
+      </View>
 
       {/* Register Button */}
-      <Button title="Next" onPress={handleRegister} />
+      <TouchableOpacity
+              style={[styles.continueButton, { backgroundColor: '#BA0F6B' }]}
+              onPress={handleRegister}
+            >
+              <Text style={styles.buttonText}>Continue</Text>
+      </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    margin: 10,
+    margin: 25,
   },
   button: {
     borderWidth: 1,
@@ -113,27 +134,66 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor:'#D9D9D9',
     borderRadius: 4,
     padding: 8,
     marginBottom: 12,
+    fontFamily:"Poppins-Regular",
+    width: 335,
   },
   buttonRow: {
     flexDirection: 'row',
-    gap: 10,
+    width:333,
+    gap: 20,
     marginBottom: 10,
   },
   radioButtonSelected: {
-    backgroundColor: '#BA0F6B', // Change the color for selected state
+    backgroundColor: '#BA0F6B',
+    color:"white", // Change the color for selected state
   },
   radioButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'black',
+    fontFamily:"Poppins-Regular",
+    justifyContent:'center',
+    borderWidth: 2.5,
+    borderColor: '#BA0F6B',
     borderRadius: 4,
+    width:160,
     padding: 10,
     marginBottom: 10,
+  },
+  radioButtonLabel:{
+    fontFamily:"Poppins-Regular",
+    color:"black",
+  },
+  headerStep:{
+    position:'absolute',
+    fontSize:20,
+    top:-60,
+    color:"black"
+  },
+  inputContainer: {
+    flexDirection: 'column',
+    justifyContent:"flex-start",
+    marginBottom: 12,
+  },
+  detailsTitle:{
+    fontFamily:"Poppins-Regular",
+    color:"black",
+    fontSize:16,
+  },
+  continueButton:{
+    width:335,
+    padding:8,
+    alignItems:"center",
+    justifyContent:"center",
+    borderRadius:10,
+  },
+  buttonText:{
+    color:"white",
+    fontSize:18,
+    fontFamily:"Poppins-Regular",
   }
 });
 

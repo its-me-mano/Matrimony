@@ -5,7 +5,7 @@ import RegisterScreen2 from './RegisterScreen2';
 import RegisterScreen3 from './RegisterScreen3';
 import RegisterScreen4 from './RegisterScreen4';
 import { RollInLeft } from 'react-native-reanimated';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet,View } from 'react-native';
 const Stack = createStackNavigator();
 
 const RegisterMainScreen = () => {
@@ -83,7 +83,10 @@ const RegisterMainScreen = () => {
             backgroundColor: '#BA0F6B' // Set your desired header background color here
           },
           headerTitle: () => (
-            <Text style={styles.customHeaderTitle}>MANAMALAI</Text>
+            <View style={styles.header}>
+              <Text style={styles.customHeaderTitle}>MANAMALAI</Text>
+              <Text style={styles.customHeaderStep}>Step 2/3</Text>
+            </View>
           )
         })}
       />
@@ -108,7 +111,10 @@ const RegisterMainScreen = () => {
             backgroundColor: '#BA0F6B', // Set your desired header color here
           },
           headerTitle: () => (
-            <Text style={styles.customHeaderTitle}>MANAMALAI</Text>
+            <View style={styles.header}>
+              <Text style={styles.customHeaderTitle}>MANAMAALAI</Text>
+              <Text style={styles.customHeaderStep}>Step 3/3</Text>
+            </View>
           ),
         })}
       />
@@ -140,9 +146,21 @@ const RegisterMainScreen = () => {
 const styles = StyleSheet.create({
   customHeaderTitle: {
     fontSize: 18, // Adjust the font size as needed
-    fontWeight: 'bold', // Apply any desired text styles
+    fontWeight:"bold", // Apply any desired text styles
     color: '#EEC219', // Set the desired text color
   },
+  customHeaderStep: {
+    fontSize: 18, // Adjust the font size as needed // Apply any desired text styles
+    color: 'white', // Set the desired text color
+  },
+  header:{
+    flex:1,
+    width:320,
+    left:-15,
+    alignItems:"center",
+    flexDirection:"row",
+    justifyContent:"space-between",
+  }
 });
 
 

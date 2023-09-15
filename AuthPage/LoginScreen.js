@@ -15,7 +15,9 @@ const LoginScreen = () => {
   const handleRegister = () => {
     navigation.navigate('Register');
   };
-
+  const handleForgotPassword=()=>{
+    navigation.navigate("ForgotPassword");
+  };
   return (
     <View style={styles.container}>
         <View style={styles.rectangle}>
@@ -42,7 +44,7 @@ const LoginScreen = () => {
           value={password}
           onChangeText={setPassword}
         />
-        <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
+        <TouchableOpacity style={styles.forgotButton} onPress={handleForgotPassword}>
           <Text style={styles.navButtonText}>Forgot Password?</Text>
         </TouchableOpacity>
         <TouchableOpacity

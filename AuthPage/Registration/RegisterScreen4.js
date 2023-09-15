@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet,ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AuthContext } from '../AuthProvider';
 import { useNavigation } from '@react-navigation/native';
@@ -30,119 +30,113 @@ const RegisterScreen4 = ({ userData, updateUserData }) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
-        {/* <Text>Dosam</Text>
-        <View style={styles.buttonRow}>
-            <SquareRadioButton
-            label="Yes"
-            selected={selectedOption === 'Yes'}
-            onPress={() => handleInputChange('dosam', 'Yes')}
-            />
-            <SquareRadioButton
-            label="No"
-            selected={selectedOption === 'No'}
-            onPress={() => handleInputChange('dosam', 'No')}
-            />
-            <SquareRadioButton
-            label="Don't Know"
-            selected={selectedOption === "Don't Know"}
-            onPress={() => handleInputChange('dosam', "Don't Know")}
-            />
-        </View> */}
-       {/* Star/Nakshatram */}
-       <Text>Star/Nakshatram</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Star/Nakshatram"
-        value={userData.star}
-        onChangeText={text => handleInputChange('star', text)}
-      />
+        <View style={styles.inputContainer}>
+          <Text style={styles.detailsTitle}>Star/Nakshatram</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Star/Nakshatram"
+            value={userData.star}
+            onChangeText={text => handleInputChange('star', text)}
+          />
+        </View>
+      
 
        {/* Raasi */}
-       <Text>Raasi</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Raasi"
-        value={userData.raasi}
-        onChangeText={text => handleInputChange('raasi', text)}
-      />
+       <View style={styles.inputContainer}>
+          <Text style={styles.detailsTitle}>Raasi</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Raasi"
+            value={userData.raasi}
+            onChangeText={text => handleInputChange('raasi', text)}
+          />
+        </View>
+      
 
          {/* Gothram */}
-         <Text>Gothram</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Gothram"
-        value={userData.gothram}
-        onChangeText={text => handleInputChange('gothram', text)}
-      />
+         <View style={styles.inputContainer}>
+          <Text style={styles.detailsTitle}>Gothram</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Gothram"
+            value={userData.gothram}
+            onChangeText={text => handleInputChange('gothram', text)}
+          />
+        </View>
+      
 
          {/* Time Of Birth for Horoscope */}
-         <Text>Time Of Birth for Horoscope</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Time Of Birth for Horoscope"
-        value={userData.timeOfBirth}
-        onChangeText={text => handleInputChange('timeOfBirth', text)}
-      />
-
+         <View style={styles.inputContainer}>
+          <Text style={styles.detailsTitle}>Time Of Birth for Horoscope</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Time Of Birth for Horoscope"
+            value={userData.timeOfBirth}
+            onChangeText={text => handleInputChange('timeOfBirth', text)}
+          />
+        </View>
       
-         {/* Time Of Birth for Horoscope */}
-         <Text>Time Of Birth for Horoscope</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Time Of Birth for Horoscope"
-        value={userData.timeOfBirth}
-        onChangeText={text => handleInputChange('timeOfBirth', text)}
-      />
-
+        <View style={styles.inputContainer}>
+          <Text style={styles.detailsTitle}>Country of Birth</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Country of Birth"
+            value={userData.countryOfBirth}
+            onChangeText={text => handleInputChange('countryOfBirth', text)}
+          />
+        </View>
       
-         {/* Country of Birth */}
-         <Text>Country of Birth</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Country of Birth"
-        value={userData.countryOfBirth}
-        onChangeText={text => handleInputChange('countryOfBirth', text)}
-      />
+      
+        <View style={styles.inputContainer}>
+          <Text style={styles.detailsTitle}>State of Birth</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="State of Birth"
+            value={userData.stateOfBirth}
+            onChangeText={text => handleInputChange('stateOfBirth', text)}
+          />
+        </View>
 
-          {/* State of Birth */}
-          <Text>State of Birth</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="State of Birth"
-        value={userData.stateOfBirth}
-        onChangeText={text => handleInputChange('stateOfBirth', text)}
-      />
+        <View style={styles.inputContainer}>
+          <Text style={styles.detailsTitle}>City of Birth</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="City of Birth"
+            value={userData.cityOfBirth}
+            onChangeText={text => handleInputChange('cityOfBirth', text)}
+          />
+        </View>
+      
 
-        {/* City of Birth */}
-        <Text>City of Birth</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="City of Birth"
-        value={userData.cityOfBirth}
-        onChangeText={text => handleInputChange('cityOfBirth', text)}
-      />
+        <View style={styles.inputContainer}>
+          <Text style={styles.detailsTitle}>Horoscope chart style</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Horoscope chart style"
+            value={userData.horoscopeChartStyle}
+            onChangeText={text => handleInputChange('horoscopeChartStyle', text)}
+          />
+        </View>
 
-        {/* Horoscope chart style */}
-        <Text>Horoscope chart style</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Horoscope chart style"
-        value={userData.horoscopeChartStyle}
-        onChangeText={text => handleInputChange('horoscopeChartStyle', text)}
-      />
-  
-      <Button title="Register" onPress={()=>register(userData,navigation)} />
+        <TouchableOpacity
+              style={[styles.continueButton, { backgroundColor: '#BA0F6B' }]}
+              onPress={()=>register(userData,navigation)}
+        >
+              <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    margin: 10,
+    margin: 25,
   },
   button: {
     borderWidth: 1,
@@ -153,10 +147,12 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor:'#D9D9D9',
     borderRadius: 4,
     padding: 8,
     marginBottom: 12,
+    fontFamily:"Poppins-Regular",
+    width: 335,
   },
   buttonRow: {
     flexDirection: 'row',
@@ -169,11 +165,36 @@ const styles = StyleSheet.create({
   radioButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'black',
+    fontFamily:"Poppins-Regular",
+    justifyContent:'center',
+    borderWidth: 2.5,
+    borderColor: '#BA0F6B',
     borderRadius: 4,
+    width:158,
     padding: 10,
     marginBottom: 10,
+  },
+  inputContainer: {
+    flexDirection: 'column',
+    justifyContent:"flex-start",
+    marginBottom: 12,
+  },
+  detailsTitle:{
+    fontFamily:"Poppins-Regular",
+    color:"black",
+    fontSize:16,
+  },
+  continueButton:{
+    width:335,
+    padding:8,
+    alignItems:"center",
+    justifyContent:"center",
+    borderRadius:10,
+  },
+  buttonText:{
+    color:"white",
+    fontSize:18,
+    fontFamily:"Poppins-Regular",
   }
 });
 
