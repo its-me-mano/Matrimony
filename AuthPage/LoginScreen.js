@@ -11,13 +11,13 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-
   const handleRegister = () => {
     navigation.navigate('Register');
   };
   const handleForgotPassword=()=>{
     navigation.navigate("ForgotPassword");
   };
+
   return (
     <View style={styles.container}>
         <View style={styles.rectangle}>
@@ -29,8 +29,8 @@ const LoginScreen = () => {
             />
           </Svg>
         </View>
-      <View style={styles.inputContainer}>
-      <Text style={styles.containerTitle}>Login</Text>
+        <View style={styles.inputContainer}>
+        <Text style={styles.containerTitle}>Login</Text>
         <TextInput
           style={styles.input}
           placeholder="Email / Phone Number"
@@ -49,7 +49,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.rightButton}
-          onPress={()=>login(email,password)}>
+          onPress={()=>login(email,password,navigation)}>
           <Text style={styles.buttonTextLogin}>Submit</Text>
         </TouchableOpacity>
         <View style={styles.container1}>
@@ -59,7 +59,7 @@ const LoginScreen = () => {
           style={styles.leftButton}
           onPress={handleRegister}
         >
-          <Text style={styles.buttonTextRegister}>Register Now</Text>
+        <Text style={styles.buttonTextRegister}>Register Now</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -8,11 +8,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import RegisterMainScreen from './AuthPage/Registration/RegisterMainScreen';
 import ImageUploadScreen from './AuthPage/ImageUploadScreen';
 import RegistrationSuccessScreen from './AuthPage/Registration/RegistrationSuccessScreen';
-import HomeScreen from './Home/HomeScreen';
+import HomeScreen from './TabNavigation/HomeScreen';
 import ForgotPasswordScreen from './AuthPage/ForgotPasswordScreen';
+
 const Stack = createStackNavigator();
 const AppNavigator = () => {
-  const {user, setUser} = useContext(AuthContext);
+  const {user, setUser,registrationSuccess} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -22,6 +23,7 @@ const AppNavigator = () => {
   };
 
   useEffect(() => {
+    {console.log(registrationSuccess)}
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, [onAuthStateChanged]);
@@ -44,26 +46,33 @@ const AppNavigator = () => {
             headerShown: false// Hide the back arrow
           }}
         />
-        <Stack.Screen name="RegistrationSuccess" component={RegistrationSuccessScreen} />
       </Stack.Navigator>
      ):(
-        <Stack.Navigator initialRouteName='Image'>
-        <Stack.Screen
-              name="Image"
-              component={ImageUploadScreen}
-              options={{
-                headerLeft: null, 
-                headerShown: false// Hide the back arrow
-              }}
-            />
-        <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{
-                headerLeft: null, 
-                headerShown: true// Hide the back arrow
-              }}
-            />
+        <Stack.Navigator initialRouteName={registrationSuccess ? 'Home' : 'Home'}>
+           {registrationSuccess ? (
+            <Stack.Screen name="RegistrationSuccess" component={RegistrationSuccessScreen} />
+            ) : null}
+            <Stack.Screen
+                  name="Image"
+                  component={ImageUploadScreen}
+                  options={{
+                    headerLeft: null, 
+                    headerTitle:"<",
+                    headerShown: true,// Hide the back arrow
+                    headerStyle:{
+                      backgroundColor:'#BA0F6B',
+                    }
+                  }}
+                  // })}
+                />
+            <Stack.Screen
+                  name="Home"
+                  component={HomeScreen}
+                  options={{
+                    headerLeft: null, 
+                    headerShown: false// Hide the back arrow
+                  }}
+                />
         </Stack.Navigator>
      )
      }
@@ -71,4 +80,4 @@ const AppNavigator = () => {
   );
 };
 
-export default AppNavigator;
+export default AppNavigator;

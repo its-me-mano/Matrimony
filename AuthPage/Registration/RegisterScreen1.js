@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../AuthProvider';
 import Icon from 'react-native-vector-icons/Feather';
+import { format } from 'date-fns';
 
 import {
   View,
@@ -183,7 +184,7 @@ const RegisterScreen1 = ({ userData, updateUserData }) => {
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
-                value={dob.toDateString()} // Display the selected date as a string
+                value={format(dob, 'yyyy-MM-dd')}  // Display the selected date as a string
                 editable={false} // Prevent manual editing of the date
               />
               <TouchableOpacity
