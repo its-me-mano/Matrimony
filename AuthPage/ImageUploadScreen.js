@@ -6,12 +6,14 @@ import { useNavigation } from '@react-navigation/native';
 import storage from '@react-native-firebase/storage'; // Import Firebase Storage
 import firestore from '@react-native-firebase/firestore'; // Import Firestore
 
-const ImageUploadScreen = () => {
+const ImageUploadScreen = ({ route }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const { logout } = useContext(AuthContext);
+  const { register } = useContext(AuthContext);
   const navigation = useNavigation();
   const { user } = useContext(AuthContext);
-
+  const userData = route.params.userData;
+  
   useEffect(() => {
     checkPermissions();
   }, []);
@@ -70,23 +72,10 @@ const ImageUploadScreen = () => {
         // Generate a unique filename for the image in Firebase Storage
         const filename = `profile_images/${Date.now()}.jpg`;
         const storageRef = storage().ref(filename);
-
-        try {
-          // Upload the image to Firebase Storage
-          await storageRef.putFile(imageUri);
-
-          // Get the download URL of the uploaded image
-          const downloadURL = await storageRef.getDownloadURL();
-
-          // Update Firestore with the download URL (example)
-          const user1 = firestore().collection('UserData').doc(user.uid);
-          await user1.set({ profilePic: downloadURL });
-
-          // Update the selected image in your component's state
-          setSelectedImage(downloadURL);
-        } catch (error) {
-          console.error('Error uploading image:', error);
-        }
+        userData.profilePic=imageUri;
+        setSelectedImage(imageUri);
+        console.log(storageRef);
+        console.log(imageUri);
       }
     });
   }; 
@@ -112,7 +101,7 @@ const ImageUploadScreen = () => {
       {selectedImage &&
         <TouchableOpacity
           style={[styles.continueBtn]}
-          onPress={() => navigation.navigate('Home')} // Navigate to the next screen
+          onPress={() =>register(userData,navigation)} // Navigate to the next screen
         >
           <Text style={styles.buttonContinue}>Continue</Text>
         </TouchableOpacity>

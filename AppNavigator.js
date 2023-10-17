@@ -46,13 +46,7 @@ const AppNavigator = () => {
             headerShown: false// Hide the back arrow
           }}
         />
-      </Stack.Navigator>
-     ):(
-        <Stack.Navigator initialRouteName={registrationSuccess ? 'Home' : 'Home'}>
-           {registrationSuccess ? (
-            <Stack.Screen name="RegistrationSuccess" component={RegistrationSuccessScreen} />
-            ) : null}
-            <Stack.Screen
+        <Stack.Screen
                   name="Image"
                   component={ImageUploadScreen}
                   options={{
@@ -64,7 +58,10 @@ const AppNavigator = () => {
                     }
                   }}
                   // })}
-                />
+        />
+      </Stack.Navigator>
+     ):(
+        <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
                   name="Home"
                   component={HomeScreen}

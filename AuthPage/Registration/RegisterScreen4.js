@@ -122,7 +122,7 @@ const RegisterScreen4 = ({ userData, updateUserData }) => {
 
         <TouchableOpacity
               style={[styles.continueButton, { backgroundColor: '#BA0F6B' }]}
-              onPress={()=>register(userData,navigation)}
+              onPress={()=> navigation.navigate('Image', { userData })}
         >
               <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>

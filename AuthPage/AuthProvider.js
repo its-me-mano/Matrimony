@@ -1,13 +1,22 @@
 /* eslint-disable prettier/prettier */
-import React, {createContext, useState} from 'react';
+import React, {createContext, useState,useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import { storage } from '@react-native-firebase/storage';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged((authUser) => {
+      setUser(authUser);
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -43,7 +52,7 @@ export const AuthProvider = ({children}) => {
 
                   // Define the data you want to store
                   const userDataToStore = {
-                  profilePic:userData.profilePic||'',
+                  x:userData.profilePic||'',
                   fullName: userData.fullName || '', // Use an empty string as a default value
                   dob: userData.dob ? userData.dob.toString() : '', // Convert to a string or use an empty string
                   address: userData.address || '',
@@ -72,7 +81,13 @@ export const AuthProvider = ({children}) => {
                   };
                   // Use the user's ID as the document ID in Firestore
                   await usersCollection.doc(userId).set(userDataToStore);
-                  navigation.navigate('RegistrationSuccess');
+
+                  // Now that the user is registered and we have their ID, update the user state
+                  setUser(userCredential.user);
+
+                  // Call the updateProfile function to upload the profile picture
+                  await updateProfile(userData.profilePic, navigation);
+                  navigation.navigate('Home');
               }
               } catch (e) {
                 console.log(e);
@@ -87,7 +102,7 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
-        updateProfile: async (imageUrl,navigation) => {
+        updateProfile: async (imageUri, navigation) => {
             if (!user) {
               console.log('User is not authenticated');
               return;
@@ -98,15 +113,28 @@ export const AuthProvider = ({children}) => {
             const userRef = db.collection('UserData').doc(userId);
 
             try {
-              await userRef.update({
-                profilePic: imageUrl,
-              });
+              if (imageUri) {
+                // Generate a unique filename for the image in Firebase Storage
+                const filename = `profile_images/${Date.now()}.jpg`;
+                const storageRef = storage().ref(filename);
+
+                // Upload the image to Firebase Storage
+                await storageRef.putFile(imageUri);
+
+                // Get the download URL of the uploaded image
+                const downloadURL = await storageRef.getDownloadURL();
+
+                // Update Firestore with the download URL
+                await userRef.update({ profilePic: downloadURL });
+              }
+
               console.log('Profile picture updated successfully');
-              navigation.navigate("Home")
+              navigation.navigate('Home');
             } catch (error) {
               console.error('Error updating profile picture:', error);
             }
-      }
+}
+
 
       }}>
       {children}

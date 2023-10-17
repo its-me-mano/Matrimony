@@ -42,6 +42,7 @@ const RegisterMainScreen = () => {
     stateOfBirth: '',
     cityOfBirth: '',
     horoscopeChartStyle: '',
+    profilePic:''
   });
 
   // Function to update userData
